@@ -8,11 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageService.init();
-  runApp(const ProviderScope(child: NewsReaderApp()));
+  runApp(const ProviderScope(child: DailyFeed()));
 }
 
-class NewsReaderApp extends ConsumerWidget {
-  const NewsReaderApp({super.key});
+class DailyFeed extends ConsumerWidget {
+  const DailyFeed({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
