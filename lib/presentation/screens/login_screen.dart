@@ -1,3 +1,4 @@
+import 'package:dailyfeed/core/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/core/exceptions.dart';
@@ -91,7 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: 'Email',
                         prefixIcon: Icon(Icons.alternate_email),
                       ),
-                      //  validator: Validators.emailOrUsername,
+                      validator: Validators.emailOrUsername,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
@@ -108,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                       ),
-                      //  validator: Validators.password,
+                      validator: Validators.password,
                     ),
                     CheckboxListTile(
                       value: _remember,

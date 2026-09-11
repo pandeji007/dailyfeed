@@ -1,3 +1,5 @@
+import 'package:dailyfeed/app_config.dart';
+
 /// App-wide compile-time configuration.
 class AppConfig {
   const AppConfig._();
@@ -6,10 +8,7 @@ class AppConfig {
   static const String newsBaseUrl = 'https://newsdata.io';
 
   /// Pass with: flutter run --dart-define=NEWS_API_KEY=pub_xxxx
-  static const String newsApiKey = String.fromEnvironment(
-    'NEWS_API_KEY',
-    defaultValue: 'pub_00000000000000000000000000000000',
-  );
+  static const String newsApiKey = ApiKey.newsApiKey;
 
   static const int pageSize = 10;
   static const Duration searchDebounce = Duration(milliseconds: 500);

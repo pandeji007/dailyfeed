@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/data/repositories/news_repository_impl.dart';
 import 'package:dailyfeed/domain/entities/article.dart';
@@ -51,7 +50,7 @@ class NewsNotifier extends FamilyAsyncNotifier<NewsState, String> {
   Future<NewsState> build(String query) => _loadFirstPage();
 
   Future<void> refresh() async {
-    State = const AsyncLoading();
+    state = const AsyncLoading(); // <-- lowercase `state`
     state = await AsyncValue.guard(_loadFirstPage);
   }
 

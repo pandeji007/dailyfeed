@@ -1,4 +1,11 @@
+import 'package:dailyfeed/presentation/screens/bookmarks_screen.dart';
+import 'package:dailyfeed/presentation/screens/detail_screen.dart';
+import 'package:dailyfeed/presentation/screens/home_screen.dart';
 import 'package:dailyfeed/presentation/screens/login_screen.dart';
+import 'package:dailyfeed/presentation/screens/search_screen.dart';
+import 'package:dailyfeed/presentation/screens/settings_screen.dart';
+import 'package:dailyfeed/presentation/widgets/app_shell.dart';
+import 'package:dailyfeed/presentation/widgets/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

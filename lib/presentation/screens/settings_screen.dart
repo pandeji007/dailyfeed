@@ -81,23 +81,37 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
-    final ok = await showDialog<bool>(
+    final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Log out?'),
-        content: const Text('Your saved articles will remain on this device.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Log out?'),
+          content: const Text(
+            'Your saved articles will remain on this device.',
           ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Log out'),
-          ),
-        ],
-      ),
+          actions: <Widget>[
+            TextButton(
+              // Use dialogContext, NOT the outer context
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              // Use dialogContext, NOT the outer context
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Log out'),
+            ),
+          ],
+        );
+      },
     );
-    if (ok == true) await ref.read(authProvider.notifier).logout();
+
+    // Bail out if the dialog was dismissed by tapping outside.
+    if (confirmed != true) return;
+
+    // Guard: the widget may have been disposed between dialog close and this line.
+    if (!context.mounted) return;
+
+    // Let the router's redirect handle the navigation — do NOT call context.go('/login').
+    await ref.read(authProvider.notifier).logout();
   }
 }
