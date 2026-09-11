@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:news_reader/core/exceptions.dart';
 // import 'package:news_reader/core/validators.dart';
@@ -18,7 +19,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController(text: 'emilyspass');
 
   bool _obscure = true;
-  bool _remember = true;
+  final bool _remember = true;
 
   // @override
   // void dispose() {
@@ -42,7 +43,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     // final authState = ref.watch(authProvider);
     // final loading = authState.isLoading;
-
     // ref.listen(authProvider, (_, next) {
     //   final error = next.error;
     //   if (error == null) return;
