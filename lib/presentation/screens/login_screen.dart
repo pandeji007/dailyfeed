@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:news_reader/core/exceptions.dart';
-// import 'package:news_reader/core/validators.dart';
-// import 'package:news_reader/presentation/providers/auth_provider.dart';
+import 'package:dailyfeed/core/exceptions.dart';
+import 'package:dailyfeed/presentation/providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -19,38 +16,41 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController(text: 'emilyspass');
 
   bool _obscure = true;
-  final bool _remember = true;
+  bool _remember = true;
 
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
-  // Future<void> _submit() async {
-  //   FocusScope.of(context).unfocus();
-  //   if (!_formKey.currentState!.validate()) return;
+  Future<void> _submit() async {
+    FocusScope.of(context).unfocus();
+    if (!_formKey.currentState!.validate()) return;
 
-  //   await ref.read(authProvider.notifier).login(
-  //         email: _emailController.text.trim(),
-  //         password: _passwordController.text,
-  //         remember: _remember,
-  //       );
-  // }
+    await ref
+        .read(authProvider.notifier)
+        .login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          remember: _remember,
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final authState = ref.watch(authProvider);
-    // final loading = authState.isLoading;
-    // ref.listen(authProvider, (_, next) {
-    //   final error = next.error;
-    //   if (error == null) return;
-    //   final message = error is AppException ? error.message : 'Login failed.';
-    //   ScaffoldMessenger.of(context)
-    //     ..hideCurrentSnackBar()
-    //     ..showSnackBar(SnackBar(content: Text(message)));
-    // });
+    final authState = ref.watch(authProvider);
+    final loading = authState.isLoading;
+
+    ref.listen(authProvider, (_, next) {
+      final error = next.error;
+      if (error == null) return;
+      final message = error is AppException ? error.message : 'Login failed.';
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(message)));
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -85,18 +85,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 28),
                     TextFormField(
                       controller: _emailController,
-                      //   enabled: !loading,
+                      enabled: !loading,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         prefixIcon: Icon(Icons.alternate_email),
                       ),
-                      // validator: Validators.emailOrUsername,
+                      //  validator: Validators.emailOrUsername,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _passwordController,
-                      // enabled: !loading,
+                      enabled: !loading,
                       obscureText: _obscure,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -108,13 +108,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                       ),
-                      //validator: Validators.password,
+                      //  validator: Validators.password,
                     ),
                     CheckboxListTile(
                       value: _remember,
-                      onChanged: (value) {},
-                      //  onChanged: (){},
-                      //onChanged: loading ? null : (v) => setState(() => _remember = v ?? true),
+                      onChanged: loading
+                          ? null
+                          : (v) => setState(() => _remember = v ?? true),
                       contentPadding: EdgeInsets.zero,
                       controlAffinity: ListTileControlAffinity.leading,
                       dense: true,
@@ -122,13 +122,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     FilledButton(
-                      onPressed: () {},
-                      // onPressed: loading ? null : _submit,
-                      child: const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
+                      onPressed: loading ? null : _submit,
+                      child: loading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('Sign in'),
                     ),
                     const SizedBox(height: 16),
                     Text(
