@@ -1,6 +1,7 @@
 import 'package:dailyfeed/presentation/screens/bookmarks_screen.dart';
 import 'package:dailyfeed/presentation/screens/detail_screen.dart';
 import 'package:dailyfeed/presentation/screens/home_screen.dart';
+import 'package:dailyfeed/presentation/screens/login_screen.dart';
 import 'package:dailyfeed/presentation/screens/search_screen.dart';
 import 'package:dailyfeed/presentation/screens/settings_screen.dart';
 import 'package:dailyfeed/presentation/widgets/app_shell.dart';
@@ -12,24 +13,28 @@ import 'package:dailyfeed/domain/entities/article.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: Routes.home,
+    initialLocation: Routes.login,
     routes: <RouteBase>[
       GoRoute(
+        path: Routes.login,
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
         path: Routes.detail,
-        builder: (_, state) {
+        builder: (context, state) {
           final article = state.extra;
           if (article is! Article) return const _MissingScreen();
           return DetailScreen(article: article);
         },
       ),
       StatefulShellRoute.indexedStack(
-        builder: (_, __, shell) => AppShell(shell: shell),
+        builder: (context, state, shell) => AppShell(shell: shell),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: Routes.home,
-                builder: (_, __) => const HomeScreen(),
+                builder: (context, state) => const HomeScreen(),
               ),
             ],
           ),
@@ -37,7 +42,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.search,
-                builder: (_, __) => const SearchScreen(),
+                builder: (context, state) => const SearchScreen(),
               ),
             ],
           ),
@@ -45,7 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.bookmarks,
-                builder: (_, __) => const BookmarksScreen(),
+                builder: (context, state) => const BookmarksScreen(),
               ),
             ],
           ),
@@ -53,7 +58,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.settings,
-                builder: (_, __) => const SettingsScreen(),
+                builder: (context, state) => const SettingsScreen(),
               ),
             ],
           ),

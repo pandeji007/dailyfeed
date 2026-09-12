@@ -1,9 +1,11 @@
+import 'package:dailyfeed/core/constants.dart';
 import 'package:dailyfeed/core/valication.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_button.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -101,7 +103,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     GradientButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          context.go(Routes.home);
+                        }
+                      },
                       child: const Text('Sign in'),
                     ),
                     const SizedBox(height: 16),
