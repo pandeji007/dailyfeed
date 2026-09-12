@@ -1,5 +1,6 @@
 import 'package:dailyfeed/core/constants.dart';
 import 'package:dailyfeed/core/valication.dart';
+import 'package:dailyfeed/presentation/providers/auth_provider.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_button.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
 import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
@@ -75,7 +76,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: 'Email',
                         prefixIcon: Icon(Icons.alternate_email),
                       ),
-                      validator: Validators.emailOrUsername,
+                      validator: Validators.email,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
@@ -103,9 +104,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     GradientButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState?.validate() ?? false) {
-                          context.go(Routes.home);
+                          await ref
+                              .read(authProvider.notifier)
+                              .login(_emailController.text.trim());
+                          if (context.mounted) {
+                            context.go(Routes.home);
+                          }
                         }
                       },
                       child: const Text('Sign in'),

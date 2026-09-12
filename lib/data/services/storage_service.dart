@@ -7,11 +7,17 @@ class StorageService {
 
   static late Box<dynamic> _bookmarks;
   static late Box<dynamic> _settings;
+  static late Box<dynamic> _auth;
 
-  static Future<void> init() async {
-    await Hive.initFlutter();
+  static Future<void> init([String? path]) async {
+    if (path != null) {
+      Hive.init(path);
+    } else {
+      await Hive.initFlutter();
+    }
     _bookmarks = await Hive.openBox<dynamic>(StorageKeys.bookmarksBox);
     _settings = await Hive.openBox<dynamic>(StorageKeys.settingsBox);
+    _auth = await Hive.openBox<dynamic>(StorageKeys.authBox);
   }
 
   // --- Bookmarks ---
@@ -19,4 +25,7 @@ class StorageService {
 
   // --- Settings ---
   static Box<dynamic> get settings => _settings;
+
+  // --- Auth ---
+  static Box<dynamic> get auth => _auth;
 }

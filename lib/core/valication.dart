@@ -5,6 +5,16 @@ class Validators {
     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$",
   );
 
+  /// Validates email address.
+  static String? email(String? value) {
+    final input = value?.trim() ?? '';
+    if (input.isEmpty) return 'Email is required';
+    if (!_emailRegex.hasMatch(input)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
   /// Accepts a valid email OR a username (dummyjson uses usernames).
   static String? emailOrUsername(String? value) {
     final input = value?.trim() ?? '';

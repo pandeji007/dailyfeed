@@ -1,3 +1,4 @@
+import 'package:dailyfeed/presentation/providers/auth_provider.dart';
 import 'package:dailyfeed/presentation/screens/bookmarks_screen.dart';
 import 'package:dailyfeed/presentation/screens/detail_screen.dart';
 import 'package:dailyfeed/presentation/screens/home_screen.dart';
@@ -11,9 +12,31 @@ import 'package:go_router/go_router.dart';
 import 'package:dailyfeed/core/constants.dart';
 import 'package:dailyfeed/domain/entities/article.dart';
 
+class _AuthListenable extends ChangeNotifier {
+  _AuthListenable(Ref ref) {
+    ref.listen<AuthState>(authProvider, (_, __) => notifyListeners());
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
+  final initialAuth = ref.read(authProvider);
+  final authListenable = _AuthListenable(ref);
+
   return GoRouter(
-    initialLocation: Routes.login,
+    initialLocation: initialAuth.isLoggedIn ? Routes.home : Routes.login,
+    refreshListenable: authListenable,
+    redirect: (context, state) {
+      final isLoggedIn = ref.read(authProvider).isLoggedIn;
+      final isLoggingIn = state.matchedLocation == Routes.login;
+
+      if (!isLoggedIn && !isLoggingIn) {
+        return Routes.login;
+      }
+      if (isLoggedIn && isLoggingIn) {
+        return Routes.home;
+      }
+      return null;
+    },
     routes: <RouteBase>[
       GoRoute(
         path: Routes.login,

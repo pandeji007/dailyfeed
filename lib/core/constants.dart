@@ -18,7 +18,10 @@ class StorageKeys {
 
   static const String bookmarksBox = 'bookmarks';
   static const String settingsBox = 'settings';
+  static const String authBox = 'auth';
   static const String themeModeKey = 'theme_mode';
+  static const String isLoggedInKey = 'is_logged_in';
+  static const String userEmailKey = 'user_email';
 }
 
 /// GoRouter paths.
