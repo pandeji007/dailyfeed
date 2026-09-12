@@ -1,58 +1,87 @@
-# News Reader
+# Daily Feed (ImmverseAI Assignment)
 
-A clean-architecture Flutter news reader.
+## Project Setup
 
-## Features
+1. **Prerequisites**
+   - Flutter SDK (stable) installed.
+   - Dart SDK 2.19+.
+   - NewsData.io API key (see below).
 
-- News feed from `newsdata.io` — infinite scroll + pull-to-refresh
-- Search by title / keyword (debounced)
-- Bookmarks that persist and work offline
-- Light / Dark / System theme (persisted)
-- Handles offline, timeout, and empty results gracefully
+2. **Clone / copy the project**
+   ```bash
+   cd "c:/Harshal/ImmverseAI assignment/dailyfeed"
+   ```
 
+3. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
+
+4. **Configure the API key**
+   See the *App Configuration* section.
+
+5. **Run the app**
+   ```bash
+   flutter run
+   ```
 
 ## Folder Structure
 
 ```
-lib/
-├── main.dart
-├── core/               # constants and exceptions
-├── domain/             # entities + abstract repositories
-├── data/               # models, services (API/Hive), repository impls
-└── presentation/       # providers, screens, widgets, theme, routes
+dailyfeed/
+├─ lib/
+│  ├─ main.dart
+│  ├─ app_config.dart   # Holds the NewsData.io API key
+│  └─ … (other source files)
+├─ assets/
+├─ test/
+├─ pubspec.yaml
+└─ README.md
 ```
 
-## Architecture
+## Architecture Overview
 
-Simple clean architecture with three layers:
+- **Presentation** – Flutter widgets in `lib/` display the UI.
+- **Data** – `NewsService` (uses `http`) fetches articles from NewsData.io, reading the API key from `AppConfig`.
+- **Configuration** – `AppConfig` centralises constants.
+- **State Management** – `provider` package supplies news data to the UI.
 
-- **`domain/`** — pure Dart. `Article` entity + repository interfaces. Nothing else.
-- **`data/`** — talks to Dio and Hive. `*Model` classes handle JSON; `*RepositoryImpl` classes implement the domain interfaces.
-- **`presentation/`** — Riverpod providers + screens + widgets. Providers expose state; screens subscribe and render.
-
-Flow: **Screen → Provider → Repository (domain interface) → RepositoryImpl → ApiService / StorageService**
-
-## Packages
+## Packages Used
 
 | Package | Purpose |
-| --- | --- |
-| `flutter_riverpod` | State management |
-| `go_router` | Navigation |
-| `dio` | HTTP client |
-| `hive_flutter` | Local persistence (bookmarks, cache, theme) |
-| `cached_network_image` | Image caching |
-| `intl` | Date formatting |
+|---|---|
+| `flutter` | UI framework |
+| `cupertino_icons` | iOS icons |
+| `http` | HTTP client for NewsData.io |
+| `provider` | Simple state‑management |
+| `intl` *(optional)* | Date‑time formatting |
+
+## App Configuration (`lib/app_config.dart`)
+
+```dart
+class ApiKey {
+  // Replace the placeholder with your NewsData.io API key.
+  static const String newsApiKey = 'YOUR_NEWSDATA_IO_API_KEY';
+}
+```
+
+1. Open `lib/app_config.dart`.
+2. Replace `YOUR_NEWSDATA_IO_API_KEY` with the key you obtain from NewsData.io.
+3. Do **not** commit the real key to version control.
+
+## How to Generate an API Key from NewsData.io
+
+1. Visit **https://newsdata.io/** and sign up / log in.
+2. After confirming your email, go to the **Dashboard**.
+3. In the **API Keys** section, click **Create New Key**.
+4. Copy the generated key (e.g., `pub_XXXXXXXXXXXXXXXXXXXXX`).
+5. Paste it into `lib/app_config.dart` as shown above.
 
 ## Assumptions
 
-1. The news API key is provided at build time via `--dart-define`.
-2. Bookmarks are local-only — no cloud sync.
-3. When the API is unreachable, the last successful first-page response is served from cache with a banner.
+- The project is a Flutter mobile/web app.
+- Network connectivity to `newsdata.io` is available.
+- No additional backend services are required.
+- Provider is sufficient for state management.
 
-## Testing
-
-```bash
-flutter test
-```
-
-Covers the basic application smoke test.
+*Happy coding!*
