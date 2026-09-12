@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dailyfeed/core/constants.dart';
 import 'package:dailyfeed/domain/entities/article.dart';
 import 'package:dailyfeed/presentation/providers/bookmark_provider.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,11 +47,10 @@ class ArticleCard extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
+                    GradientText(
                       article.sourceName,
                       style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -76,10 +77,12 @@ class ArticleCard extends ConsumerWidget {
               IconButton(
                 onPressed: () =>
                     ref.read(bookmarksProvider.notifier).toggle(article),
-                icon: Icon(
-                  bookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  color: bookmarked ? theme.colorScheme.primary : null,
-                ),
+                icon: bookmarked
+                    ? const GradientIcon(Icons.bookmark)
+                    : Icon(
+                        Icons.bookmark_border,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
               ),
             ],
           ),

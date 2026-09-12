@@ -1,4 +1,5 @@
 import 'package:dailyfeed/presentation/widgets/article_card.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/presentation/providers/news_provider.dart';
@@ -42,7 +43,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Top Stories'),
+        title: const GradientText(
+          'Top Stories',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),

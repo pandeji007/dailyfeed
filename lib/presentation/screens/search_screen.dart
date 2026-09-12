@@ -1,13 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/core/constants.dart';
 import 'package:dailyfeed/presentation/providers/news_provider.dart';
 import 'package:dailyfeed/presentation/widgets/article_card.dart';
 import 'package:dailyfeed/presentation/widgets/empty_view.dart';
 import 'package:dailyfeed/presentation/widgets/error_view.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
 import 'package:dailyfeed/presentation/widgets/loading_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -50,7 +52,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: const GradientText(
+          'Search',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(64),
           child: Padding(
@@ -60,7 +69,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               onChanged: _onChanged,
               decoration: InputDecoration(
                 hintText: 'Search news…',
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: hasQuery
+                    ? const GradientIcon(Icons.search)
+                    : const Icon(Icons.search),
                 suffixIcon: _controller.text.isEmpty
                     ? null
                     : IconButton(

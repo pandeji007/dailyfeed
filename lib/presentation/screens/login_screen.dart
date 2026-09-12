@@ -1,8 +1,9 @@
-import 'package:dailyfeed/core/validators.dart';
+import 'package:dailyfeed/core/valication.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_button.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dailyfeed/core/exceptions.dart';
-import 'package:dailyfeed/presentation/providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -13,8 +14,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'emilys');
-  final _passwordController = TextEditingController(text: 'emilyspass');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   bool _obscure = true;
   bool _remember = true;
@@ -26,33 +27,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    FocusScope.of(context).unfocus();
-    if (!_formKey.currentState!.validate()) return;
-
-    await ref
-        .read(authProvider.notifier)
-        .login(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-          remember: _remember,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
-    final loading = authState.isLoading;
-
-    ref.listen(authProvider, (_, next) {
-      final error = next.error;
-      if (error == null) return;
-      final message = error is AppException ? error.message : 'Login failed.';
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(message)));
-    });
-
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -65,28 +41,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Icon(
-                      Icons.newspaper_rounded,
-                      size: 56,
-                      color: Theme.of(context).colorScheme.primary,
+                    const Center(
+                      child: GradientIcon(
+                        Icons.newspaper_rounded,
+                        size: 56,
+                      ),
                     ),
                     const SizedBox(height: 16),
-                    Text(
+                    const GradientText(
                       'Welcome back',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'Sign in to read the latest stories',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                     const SizedBox(height: 28),
                     TextFormField(
                       controller: _emailController,
-                      enabled: !loading,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email',
@@ -97,7 +78,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _passwordController,
-                      enabled: !loading,
                       obscureText: _obscure,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -113,24 +93,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     CheckboxListTile(
                       value: _remember,
-                      onChanged: loading
-                          ? null
-                          : (v) => setState(() => _remember = v ?? true),
+                      onChanged: (v) => setState(() => _remember = v ?? true),
                       contentPadding: EdgeInsets.zero,
                       controlAffinity: ListTileControlAffinity.leading,
                       dense: true,
                       title: const Text('Remember me'),
                     ),
                     const SizedBox(height: 8),
-                    FilledButton(
-                      onPressed: loading ? null : _submit,
-                      child: loading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('Sign in'),
+                    GradientButton(
+                      onPressed: () {},
+                      child: const Text('Sign in'),
                     ),
                     const SizedBox(height: 16),
                     Text(

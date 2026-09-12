@@ -20,10 +20,6 @@ class ApiService {
     return _handle(() => _dio.get<dynamic>(url, queryParameters: query));
   }
 
-  Future<Map<String, dynamic>> post(String url, {Object? body}) async {
-    return _handle(() => _dio.post<dynamic>(url, data: body));
-  }
-
   Future<Map<String, dynamic>> _handle(
     Future<Response<dynamic>> Function() request,
   ) async {
@@ -53,7 +49,6 @@ class ApiService {
 
       case DioExceptionType.badResponse:
         final status = error.response?.statusCode;
-        if (status == 401 || status == 403) return AppException.unauthorized();
         final message = _extractMessage(error.response?.data);
         return AppException.server(message ?? 'Server error ($status).');
 

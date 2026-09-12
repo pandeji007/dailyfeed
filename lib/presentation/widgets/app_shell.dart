@@ -1,3 +1,4 @@
+import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,22 +18,22 @@ class AppShell extends StatelessWidget {
         destinations: const <NavigationDestination>[
           NavigationDestination(
             icon: Icon(Icons.article_outlined),
-            selectedIcon: Icon(Icons.article),
+            selectedIcon: GradientIcon(Icons.article),
             label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.search),
-            selectedIcon: Icon(Icons.search),
+            selectedIcon: GradientIcon(Icons.search),
             label: 'Search',
           ),
           NavigationDestination(
             icon: Icon(Icons.bookmark_border),
-            selectedIcon: Icon(Icons.bookmark),
+            selectedIcon: GradientIcon(Icons.bookmark),
             label: 'Saved',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
+            selectedIcon: GradientIcon(Icons.settings),
             label: 'Settings',
           ),
         ],

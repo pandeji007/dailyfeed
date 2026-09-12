@@ -13,6 +13,7 @@ class ArticleModel {
     required this.link,
     required this.keywords,
     required this.creator,
+    required this.sourceUrl,
   });
 
   final String id;
@@ -25,7 +26,7 @@ class ArticleModel {
   final String link;
   final List<String> keywords;
   final String creator;
-
+  final String sourceUrl;
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     final rawDate = json['pubDate'] as String?;
     final parsedDate = rawDate != null
@@ -46,6 +47,7 @@ class ArticleModel {
       description: json['description'] as String? ?? '',
       content: json['content'] as String? ?? '',
       imageUrl: json['image_url'] as String? ?? '',
+      sourceUrl: json['source_url'] as String? ?? '',
       sourceName: (json['source_name'] as String?) ?? 'Unknown source',
       publishedAt: parsedDate,
       link: link,
@@ -78,6 +80,7 @@ class ArticleModel {
     link: link,
     keywords: keywords,
     creator: creator,
+    sourceUrl: sourceUrl,
   );
 
   factory ArticleModel.fromEntity(Article article) => ArticleModel(
@@ -91,6 +94,7 @@ class ArticleModel {
     link: article.link,
     keywords: article.keywords,
     creator: article.creator,
+    sourceUrl: article.sourceUrl,
   );
 
   static List<String> _toList(dynamic value) {

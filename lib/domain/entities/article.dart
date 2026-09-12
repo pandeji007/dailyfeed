@@ -11,6 +11,7 @@ class Article {
     this.link = '',
     this.keywords = const <String>[],
     this.creator = '',
+    this.sourceUrl = '',
   });
 
   final String id;
@@ -23,4 +24,5 @@ class Article {
   final String link;
   final List<String> keywords;
   final String creator;
+  final String sourceUrl;
 }

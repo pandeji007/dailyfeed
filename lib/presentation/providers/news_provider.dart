@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/data/repositories/news_repository_impl.dart';
+import 'package:dailyfeed/data/services/api_service.dart';
 import 'package:dailyfeed/domain/entities/article.dart';
 import 'package:dailyfeed/domain/repositories/news_repository.dart';
-import 'package:dailyfeed/presentation/providers/auth_provider.dart';
+
+final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
 
 // --- Repository --------------------------------------------------------------
 

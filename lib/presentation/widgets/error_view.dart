@@ -14,8 +14,6 @@ class ErrorView extends StatelessWidget {
           return Icons.wifi_off_rounded;
         case AppErrorType.timeout:
           return Icons.timer_off_outlined;
-        case AppErrorType.unauthorized:
-          return Icons.lock_outline_rounded;
         default:
           return Icons.error_outline_rounded;
       }

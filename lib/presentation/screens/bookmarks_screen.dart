@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dailyfeed/presentation/providers/bookmark_provider.dart';
 import 'package:dailyfeed/presentation/widgets/article_card.dart';
 import 'package:dailyfeed/presentation/widgets/empty_view.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookmarksScreen extends ConsumerWidget {
   const BookmarksScreen({super.key});
@@ -12,7 +13,16 @@ class BookmarksScreen extends ConsumerWidget {
     final bookmarks = ref.watch(bookmarksProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Saved')),
+      appBar: AppBar(
+        title: const GradientText(
+          'Saved',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
+        ),
+      ),
       body: bookmarks.isEmpty
           ? const EmptyView(
               icon: Icons.bookmark_border,

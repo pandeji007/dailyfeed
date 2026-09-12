@@ -23,20 +23,8 @@ class AppException implements Exception {
     type: AppErrorType.invalidResponse,
   );
 
-  factory AppException.unauthorized() => const AppException(
-    'Invalid email or password.',
-    type: AppErrorType.unauthorized,
-  );
-
   factory AppException.server(String message) =>
       AppException(message, type: AppErrorType.server);
 }
 
-enum AppErrorType {
-  noInternet,
-  timeout,
-  invalidResponse,
-  unauthorized,
-  server,
-  unknown,
-}
+enum AppErrorType { noInternet, timeout, invalidResponse, server, unknown }

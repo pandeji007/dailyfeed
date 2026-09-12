@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dailyfeed/domain/entities/article.dart';
+import 'package:dailyfeed/presentation/providers/bookmark_provider.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_icon.dart';
+import 'package:dailyfeed/presentation/widgets/gradient_text.dart';
+import 'package:dailyfeed/presentation/widgets/link_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:dailyfeed/domain/entities/article.dart';
-import 'package:dailyfeed/presentation/providers/bookmark_provider.dart';
 
 class DetailScreen extends ConsumerWidget {
   const DetailScreen({super.key, required this.article});
@@ -25,7 +28,9 @@ class DetailScreen extends ConsumerWidget {
           IconButton(
             onPressed: () =>
                 ref.read(bookmarksProvider.notifier).toggle(article),
-            icon: Icon(bookmarked ? Icons.bookmark : Icons.bookmark_border),
+            icon: bookmarked
+                ? const GradientIcon(Icons.bookmark)
+                : const Icon(Icons.bookmark_border),
           ),
         ],
       ),
@@ -46,11 +51,11 @@ class DetailScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                GradientText(
                   article.sourceName,
                   style: theme.textTheme.labelLarge?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -77,6 +82,11 @@ class DetailScreen extends ConsumerWidget {
                     style: theme.textTheme.bodySmall,
                   ),
                 ],
+                Hyperlink(
+                  url: article.sourceUrl.isNotEmpty
+                      ? article.sourceUrl
+                      : article.link,
+                ),
                 const SizedBox(height: 20),
                 const Divider(),
                 const SizedBox(height: 20),
@@ -91,7 +101,16 @@ class DetailScreen extends ConsumerWidget {
                     runSpacing: 8,
                     children: article.keywords
                         .take(8)
-                        .map((k) => Chip(label: Text(k)))
+                        .map(
+                          (k) => Chip(
+                            label: Text(k),
+                            backgroundColor:
+                                theme.colorScheme.surfaceContainerHighest,
+                            side: BorderSide(
+                              color: theme.colorScheme.outlineVariant,
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ],
