@@ -8,9 +8,6 @@
    - NewsData.io API key (see below).
 
 2. **Clone / copy the project**
-   ```bash
-   cd "c:/Harshal/ImmverseAI assignment/dailyfeed"
-   ```
 
 3. **Install dependencies**
    ```bash
@@ -19,6 +16,26 @@
 
 4. **Configure the API key**
    See the *App Configuration* section.
+## App Configuration (`lib/app_config.dart`)
+
+```dart
+class ApiKey {
+  // Replace the placeholder with your NewsData.io API key.
+  static const String newsApiKey = 'YOUR_NEWSDATA_IO_API_KEY';
+}
+```
+
+1. Open `lib/app_config.dart`.
+2. Replace `YOUR_NEWSDATA_IO_API_KEY` with the key you obtain from NewsData.io.
+3. Do **not** commit the real key to version control.
+
+## How to Generate an API Key from NewsData.io
+
+1. Visit **https://newsdata.io/** and sign up / log in.
+2. After confirming your email, go to the **Dashboard**.
+3. In the **API Keys** section, click **Create New Key**.
+4. Copy the generated key (e.g., `pub_XXXXXXXXXXXXXXXXXXXXX`).
+5. Paste it into `lib/app_config.dart` as shown above.
 
 5. **Run the app**
    ```bash
@@ -56,26 +73,6 @@ dailyfeed/
 | `provider` | Simple state‑management |
 | `intl` *(optional)* | Date‑time formatting |
 
-## App Configuration (`lib/app_config.dart`)
-
-```dart
-class ApiKey {
-  // Replace the placeholder with your NewsData.io API key.
-  static const String newsApiKey = 'YOUR_NEWSDATA_IO_API_KEY';
-}
-```
-
-1. Open `lib/app_config.dart`.
-2. Replace `YOUR_NEWSDATA_IO_API_KEY` with the key you obtain from NewsData.io.
-3. Do **not** commit the real key to version control.
-
-## How to Generate an API Key from NewsData.io
-
-1. Visit **https://newsdata.io/** and sign up / log in.
-2. After confirming your email, go to the **Dashboard**.
-3. In the **API Keys** section, click **Create New Key**.
-4. Copy the generated key (e.g., `pub_XXXXXXXXXXXXXXXXXXXXX`).
-5. Paste it into `lib/app_config.dart` as shown above.
 
 ## Assumptions
 
